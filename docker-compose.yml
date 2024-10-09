@@ -1,0 +1,27 @@
+# Specify the version of the Docker Compose file format
+version: '3'
+
+services:
+  superset:
+    # Build the Superset service from the Dockerfile located in the ./superset directory
+    build:
+      context: ./superset
+      dockerfile: Dockerfile
+
+    # Name the container 'superset'
+    container_name: superset
+
+    # Mount volumes to persist data and configuration files
+    volumes:
+      # Persist the Superset data
+      - .superset_data:/app/superset_home
+      # Adding data from SQLite
+      - .sqlite_data:/app/sqlite
+
+    # Expose port 8088 on the host and map it to port 8088 on the container
+    ports:
+      - '8088:8088'
+
+    # Load environment variables
+    env_file:
+      - .env
